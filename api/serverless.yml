@@ -1,0 +1,31 @@
+service: voice-api
+provider:
+  name: aws
+  runtime: nodejs4.3
+  region: us-west-2
+  memorySize: 256
+  # # Stage name
+  # stage: staging
+  # # Global environment variables
+  # environment:
+  #   MyGlobalEnv: MyGlobalEnvValue
+  # # Additional IAM Permissions
+  # iamRoleStatements:
+  # - Effect: Allow
+  #   Action:
+  #   - ec2:DescribeInstances
+  #   Resource: "*"
+  apiKeys:
+  - ${self:provider.stage}-apiKey
+plugins:
+- serverless-webpack
+functions:
+  hello:
+    handler: hello.default
+    events:
+    - http: POST hello
+      cors: true
+      private: true
+    # # Function specific environment variables
+    # environment:
+    #   MyPerFunctionEnv: foo
